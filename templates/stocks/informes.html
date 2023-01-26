@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Stocks</title>
@@ -10,17 +10,15 @@
         position: fixed;
         right: 0;
         width: 300px;
-
     }
 
 
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
 </head>
 <body>
-<meta charset="UTF-8">
 <main>
     <h1>STOCKS</h1>
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand" href="#"></a>
@@ -49,6 +47,33 @@
             </div>
         </div>
     </nav>
+    <h3 class="text-center mt-4">GRÁFICA</h3>
+    <canvas id="lineChart" width="900" height="400 ">ascasc</canvas>
+    <script>
+       var ctx = document.getElementById("lineChart").getContext("2d");
+       console.log({{ labels | safe}});
+       console.log({{ values | safe}});
+       var lineChart = new Chart(ctx, {
+         type: "line",
+         data: {
+            labels: {{ labels | safe}},
+            dataset: [
+                {
+                  label: 'Data points',
+                  data: {{ values | safe}},
+                  fill: false,
+                  borderColor : "rgb(75, 192, 192)",
+                  lineTension: 0.1
+                }
+            ]
+         },
+         options: {
+         responsive: false
+         }
+       });
+
+
+    </script>
 </main>
 </body>
 </html>

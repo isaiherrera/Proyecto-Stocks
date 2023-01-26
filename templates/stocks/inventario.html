@@ -11,7 +11,9 @@
         right: 0;
         width: 300px;
     }
+
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
 </head>
 <body>
 <main>
@@ -88,5 +90,28 @@
         {% endfor %}
     </table>
 </main>
+<canvas id="lineChart" width="900" height="400 "></canvas>
+<script>
+       var ctx = document.getElementById("lineChart").getContext("2d");
+       var lineChart = new Chart(cxt, {
+         type: "line",
+         data: {
+            labels: {{ labels | safe}},
+            dataset: [
+                {
+                  label: 'Data points',
+                  data: {{values | safe }},
+                  fill: false,
+                  borderColor : "rgb(75, 192, 192)",
+                  lineTension: 0.1
+                }
+            ]
+         },
+         options: {
+         responsive: false
+         }
+       });
+
+</script>
 </body>
 </html>

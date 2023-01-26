@@ -55,7 +55,20 @@ def eliminar(id):
 
 @bp.route('/informes')
 def informes():
-    return render_template('stocks/informes.html')
+    data = [
+        ('Producto 1', 3),
+        ('Producto 2', 3),
+        ('Producto 3', 3),
+        ('Producto 4', 3),
+        ('Producto 5', 3),
+        ('Producto 6', 3)
+    ]
+
+    labels = [row[0] for row in data]
+    values = [row[1] for row in data]
+    print(labels)
+    print(values)
+    return render_template('stocks/informes.html', labels=labels, values=values)
 
 
 @bp.route('/proveedores')
