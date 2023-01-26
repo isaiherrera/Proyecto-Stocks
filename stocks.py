@@ -56,12 +56,12 @@ def eliminar(id):
 @bp.route('/informes')
 def informes():
     data = [
-        ('Producto 1', 3),
-        ('Producto 2', 3),
-        ('Producto 3', 3),
-        ('Producto 4', 3),
-        ('Producto 5', 3),
-        ('Producto 6', 3)
+        ('Producto 1', 10),
+        ('Producto 2', 17),
+        ('Producto 3', 7),
+        ('Producto 4', 24),
+        ('Producto 5', 13),
+        ('Producto 6', 9)
     ]
 
     labels = [row[0] for row in data]
