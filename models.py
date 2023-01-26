@@ -8,15 +8,15 @@ class Producto(db.Base):
     id = Column(Integer, primary_key=True)
     descripcion = Column(String(200), nullable=False)
     stock = Column(Integer, nullable=False)
-    cantidad = Column(Integer, nullable=False)
+    capacidad = Column(Integer, nullable=False)
     precio = Column(Float, nullable=False)
     categoria = Column(String(50), nullable=False)
     proveedor = Column(String(100), nullable=False)
 
-    def __init__(self, descripcion, stock, cantidad, precio, categoria, proveedor):
+    def __init__(self, descripcion, stock, capacidad, precio, categoria, proveedor):
         self.descripcion = descripcion
         self.stock = stock
-        self.cantidad = cantidad
+        self.capacidad = capacidad
         self.precio = precio
         self.categoria = categoria
         self.proveedor = proveedor

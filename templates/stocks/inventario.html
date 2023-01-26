@@ -11,9 +11,6 @@
         right: 0;
         width: 300px;
     }
-
-
-
     </style>
 </head>
 <body>
@@ -54,7 +51,7 @@
             <th scope="col">ID</th>
             <th scope="col">DESCRIPCIÓN</th>
             <th scope="col">STOCK</th>
-            <th scope="col">CANTIDAD</th>
+            <th scope="col">CAPACIDAD DE ALMACÉN</th>
             <th scope="col">PRECIO</th>
             <th scope="col">CATEGORÍA</th>
             <th scope="col">PROVEEDOR</th>
@@ -67,7 +64,7 @@
             <th scope="row">{{producto.id}}</th>
             <td>{{producto.descripcion}}</td>
             <td>{{producto.stock}}</td>
-            <td>{{producto.cantidad}}</td>
+            <td>{{producto.capacidad}}</td>
             <td>{{producto.precio}}</td>
             <td>{{producto.categoria}}</td>
             <td>{{producto.proveedor}}</td>
@@ -79,15 +76,10 @@
                           d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                 </svg>
             </a></td>
-
-            <!--            <td><div class="progress">-->
-            <!--                <div class="progress-bar" role="progressbar" style={{"width:",(producto.stock/producto.cantidad)*100,"%;"}} aria-valuenow="25" aria-valuemin="0"-->
-            <!--                     aria-valuemax="100"></div>-->
-            <!--            </div></td>-->
             <td>
                 <div class="progress">
-                    <div class="progress-bar bg-danger" role="progressbar" style={{"width:",porcentaje|string,"%;"}}
-                         aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">{{porcentaje}}</div>
+                    <div class="progress-bar bg-danger" role="progressbar" style={{"width:100%"}}
+                         aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
 
             </td>

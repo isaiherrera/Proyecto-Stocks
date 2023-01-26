@@ -35,9 +35,12 @@ def add():
 @bp.route('/crear-producto', methods=['POST'])
 def crear():
     producto = Producto(descripcion=request.form['contenido_descripcion'],
-                        stock=request.form['contenido_stock'], cantidad=request.form['contenido_cantidad'],
+                        stock=request.form['contenido_stock'],
+                        capacidad=request.form['contenido_capacidad'],
                         precio=request.form['contenido_precio'],
-                        categoria=request.form['contenido_categoria'], proveedor=request.form['contenido_proveedor'])
+                        categoria=request.form['contenido_categoria'],
+                        proveedor=request.form['contenido_proveedor'])
+
     db.session.add(producto)
     db.session.commit()
     return redirect(url_for('stocks.inventario'))
