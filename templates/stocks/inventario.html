@@ -7,7 +7,7 @@
           integrity="sha384-nNK9n28pDUDDgIiIqZ/MiyO3F4/9vsMtReZK39klb/MtkZI3/LtjSjlmyVPS3KdN" crossorigin="anonymous">
     <style>
     div.fixed {
-        position: fixed;
+        position: absolute;
         right: 0;
         width: 300px;
     }
@@ -39,10 +39,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/proveedores">Proveedores</a>
                     </li>
+                    <div class="fixed">
+                        <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Logout</a>
+                    </div>
                 </ul>
-                <div class="fixed">
-                    <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Logout</a>
-                </div>
             </div>
         </div>
     </nav>
@@ -57,6 +57,8 @@
             <th scope="col">PRECIO</th>
             <th scope="col">CATEGORÍA</th>
             <th scope="col">PROVEEDOR</th>
+            <th scope="col"></th>
+            <th scope="col">PORCENTAJE STOCK</th>
             <th scope="col"></th>
         </tr>
         </thead>
@@ -80,8 +82,11 @@
             </a></td>
             <td>
                 <div class="progress">
-                    <div class="progress-bar bg-danger" role="progressbar" style={{"width:100%"}}
-                         aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar bg-danger" role="progressbar"
+                         style="width:{{ '{:.0f}'.format((producto.stock/producto.capacidad)*100) }}%"
+                         aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">{{
+                        '{:.0f}'.format((producto.stock/producto.capacidad)*100) }}%
+                    </div>
                 </div>
 
             </td>
@@ -91,27 +96,5 @@
     </table>
 </main>
 <canvas id="lineChart" width="900" height="400 "></canvas>
-<script>
-       var ctx = document.getElementById("lineChart").getContext("2d");
-       var lineChart = new Chart(cxt, {
-         type: "line",
-         data: {
-            labels: {{ labels | safe}},
-            dataset: [
-                {
-                  label: 'Data points',
-                  data: {{values | safe }},
-                  fill: false,
-                  borderColor : "rgb(75, 192, 192)",
-                  lineTension: 0.1
-                }
-            ]
-         },
-         options: {
-         responsive: false
-         }
-       });
-
-</script>
 </body>
 </html>

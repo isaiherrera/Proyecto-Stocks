@@ -1,7 +1,6 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
-from werkzeug.exceptions import abort
 
 from templates.auth import login_required
 import db
@@ -20,7 +19,7 @@ def index():
 @bp.route('/inventario')
 def inventario():
     todos_los_productos = db.session.query(Producto).all()
-    return render_template("stocks/inventario.html", lista_productos=todos_los_productos, porcentaje=porcentaje_stock)
+    return render_template("stocks/inventario.html", lista_productos=todos_los_productos)
 
 
 def porcentaje_stock(self):
@@ -55,19 +54,12 @@ def eliminar(id):
 
 @bp.route('/informes')
 def informes():
-    data = [
-        ('Producto 1', 3),
-        ('Producto 2', 3),
-        ('Producto 3', 3),
-        ('Producto 4', 3),
-        ('Producto 5', 3),
-        ('Producto 6', 3)
-    ]
-
-    labels = [row[0] for row in data]
-    values = [row[1] for row in data]
-    print(labels)
-    print(values)
+    todos_los_productos = db.session.query(Producto).all()
+    labels = []
+    values = []
+    for producto in todos_los_productos:
+        labels.append(producto.descripcion)
+        values.append(producto.stock)
     return render_template('stocks/informes.html', labels=labels, values=values)
 
 
