@@ -32,7 +32,7 @@
                         <a class="nav-link" href="/inventario">Inventario</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/anadir-producto">Añadir un producto</a>
+                        <a class="nav-link" href="/create-producto">Añadir un producto</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/informes">Informes</a>
@@ -52,7 +52,11 @@
             </div>
         </div>
     </nav>
+
 </main>
-<h1>Hola Mundo</h1>
+{% for proveedor in lista_proveedores %}
+<h1>empresa : {{proveedor.nombre_empresa}}</h1>
+<h1>numeros de productos : {{num_productos[proveedor.id_proveedor | int]}}</h1>
+{% endfor %}
 </body>
 </html>

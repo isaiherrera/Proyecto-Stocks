@@ -50,9 +50,19 @@
                 <select name="select_tipo_usuario">
                     <option value="">--Please choose an option--</option>
                     {% for tipo_usuario in tipos_usuarios.keys() %}
+                    {% if tipo_usuario != 1 %}
                     <option value={{tipo_usuario}}>{{tipos_usuarios[tipo_usuario]}}</option>
+                    {% endif %}
                     {% endfor %}
                 </select>
+                <label class="col-form-" for="selectTiposEmpresas">Empresa</label>
+                <select name="select_tipo_empresa">
+                    <option value="">--Please choose an option--</option>
+                    {% for tipo_empresa in proveedores.keys() %}
+                    <option value={{tipo_empresa}}>{{proveedores[tipo_empresa | int]}}</option>
+                    {% endfor %}
+                </select>
+
                 <button type="submit" value="Register" class="btn btn-info col-md-4 offset-md-4 mt-4">Signup
                 </button>
             </form>

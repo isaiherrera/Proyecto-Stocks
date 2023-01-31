@@ -1,6 +1,4 @@
-from flask import (
-    Blueprint, redirect, render_template, request, url_for
-)
+from flask import Blueprint, redirect, render_template, request, url_for, session
 
 import db
 from models import Productos, Proveedores
@@ -25,46 +23,42 @@ def get_proveedores():
 @bp.route('/inventario')
 def inventario():
     return render_template("stocks/inventario.html", lista_productos=db.session.query(Productos).all(),
-                           nombre_proveedores=get_proveedores())
+                           proveedores=get_proveedores())
 
 
-@bp.route('/anadir-producto')
-def add():
-    return render_template('stocks/addProduct.html', proveedores=get_proveedores())
+@bp.route('/create-producto', methods=['GET', 'POST'])
+def add_product():
+    if request.method == 'GET':
+        return render_template('stocks/create-producto.html', proveedores=get_proveedores())
+    if request.method == 'POST':
+        producto = Productos(desc_producto=request.form['contenido_descripcion'],
+                             stock=request.form['contenido_stock'],
+                             capacidad=request.form['contenido_capacidad'],
+                             precio=request.form['contenido_precio'],
+                             categoria=request.form['contenido_categoria'],
+                             id_proveedor=request.form['contenido_proveedor'])
+
+        db.session.add(producto)
+        db.session.commit()
+        return redirect(url_for('stocks.inventario'))
 
 
-@bp.route('/crear-producto', methods=['POST'])
-def crear():
-    producto = Productos(desc_producto=request.form['contenido_descripcion'],
-                         stock=request.form['contenido_stock'],
-                         capacidad=request.form['contenido_capacidad'],
-                         precio=request.form['contenido_precio'],
-                         categoria=request.form['contenido_categoria'],
-                         id_proveedor=request.form['contenido_proveedor'])
-
-    db.session.add(producto)
-    db.session.commit()
-    return redirect(url_for('stocks.inventario'))
-
-
-@bp.route('/editar-producto/<id>')
-def editar(id):
-    producto = get_db().execute('SELECT * FROM producto WHERE id = ?', (id,)).fetchone()
-    print(producto)
-    return render_template('stocks/editProduct.html', producto=producto)
-
-
-@bp.route('/editProduct/<id>', methods=['POST'])
-def edit(id):
-    producto = Producto(descripcion=request.form['new_descripcion'],
-                        stock=request.form['new_stock'],
-                        capacidad=request.form['new_capacidad'],
-                        precio=request.form['new_precio'],
-                        categoria=request.form['new_categoria'],
-                        proveedor=request.form['new_proveedor'])
-    db.session.update(producto)
-    db.session.commit()
-    return redirect(url_for('stocks.inventario'))
+@bp.route('/editar-producto/<id_producto>', methods=['GET', 'POST'])
+def update(id_producto):
+    if request.method == 'GET':
+        producto = db.session.query(Productos).filter(Productos.id_producto == id_producto).first()
+        return render_template('stocks/editar-producto.html', producto=producto, proveedores=get_proveedores())
+    if request.method == 'POST':
+        db.session.query(Productos).filter(Productos.id_producto == id_producto).update({
+            Productos.desc_producto: request.form['new_descripcion'],
+            Productos.stock: request.form['new_stock'],
+            Productos.capacidad: request.form['new_capacidad'],
+            Productos.precio: request.form['new_precio'],
+            Productos.categoria: request.form['new_categoria'],
+            Productos.id_proveedor: request.form['new_proveedor']
+        })
+        db.session.commit()
+        return redirect(url_for('stocks.inventario'))
 
 
 @bp.route('/eliminar-producto/<id>')
@@ -88,7 +82,13 @@ def informes():
 @bp.route('/proveedores')
 def proveedores():
     todos_los_proveedores = db.session.query(Proveedores).all()
-    return render_template("stocks/proveedores.html", lista_proveedores=todos_los_proveedores)
+    todos_los_productos = db.session.query(Productos).all()
+    num_productos = {}
+    for proveedor in todos_los_proveedores:
+        num_productos[proveedor.id_proveedor] = db.session.query(Productos).filter(
+            Productos.id_proveedor == proveedor.id_proveedor).count()
+    return render_template("stocks/proveedores.html", lista_proveedores=todos_los_proveedores,
+                           num_productos=num_productos)
 
 
 @bp.route('/admin')
