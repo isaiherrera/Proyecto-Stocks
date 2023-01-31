@@ -13,6 +13,7 @@
 
     }
 
+
     </style>
 </head>
 <body>
@@ -33,7 +34,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/anadir-producto">Añadir un producto</a>
+                        <a class="nav-link active" href="/anadir-producto">Añadir un producto</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/informes">Informes</a>
@@ -42,7 +43,8 @@
                         <a class="nav-link" href="/proveedores">Proveedores</a>
                     </li>
                     {% if session.get('id_usuario') == 1 %}
-                    </li><li class="nav-item">
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/admin">Admin</a>
                     </li>
                     {% endif %}
@@ -54,33 +56,36 @@
         </div>
     </nav>
 
-    <h3 class="text-center mt-4">DATOS DEL PRODUCTO</h3>
+    <h3 class="text-center mt-4">EDICIÓN DEL PRODUCTO</h3>
     <div class="form-group">
         <div class="col-md-4 offset-md-4 my-auto">
-            <form action='/crear-producto' method='post'>
+            <form action='/editar-producto/{{producto.id_producto}}' method='post'>
                 <label class="col-form-" for="inputDescripcion">Descripción</label>
-                <input type="text" name=contenido_descripcion class="form-control" placeholder=
-                        "Introduce la descripción del producto" id="inputDescripcion">
+                <input type="text" name=new_descripcion class="form-control" value=
+                        '{{producto.desc_producto}}' id="inputDescripcion">
 
                 <label class='col-form-' for="inputStock">Stock</label>
-                <input type="number" name=contenido_stock class="form-control" placeholder=
-                        "Introduce el stock del producto" id="inputStock">
+                <input type="number" name=new_stock class="form-control" value=
+                        '{{producto.stock}}' id="inputStock">
 
                 <label class='col-form-' for="inputCapacidad">Capacidad</label>
-                <input type="number" name=contenido_capacidad class="form-control" placeholder=
-                        "Introduce la capacidad del producto" id="inputCapacidad">
+                <input type="number" name=new_capacidad class="form-control" value=
+                        '{{producto.capacidad}}' id="inputCapacidad">
 
                 <label class="col-form-" for="inputPrecio">Precio</label>
-                <input type="number" name=contenido_precio class="form-control" placeholder=
-                        "Introduce el precio del producto" id="inputPrecio">
+                <input type="number" name=new_precio class="form-control" value=
+                        '{{producto.precio}}' id="inputPrecio">
 
                 <label class="col-form-" for="inputCategoria">Categoría</label>
-                <input type="text" name=contenido_categoria class="form-control" placeholder=
-                        "Introduce la categoría del producto" id="inputCategoria">
+                <input type="text" name=new_categoria class="form-control" value=
+                        '{{producto.categoria}}' id="inputCategoria">
 
-                <label class="col-form-" for="contenidoProveedor">Proveedor</label>
-                <select name="contenido_proveedor">
-                    <option value="">--Please choose an option--</option>
+                <label class="col-form-" for="inputProveedor">Proveedor</label>
+                <select name="new_proveedor">
+                    <option value="{{producto.id_proveedor | int }}">
+                        {{proveedores[producto.id_proveedor | int ]}}
+                    </option>
+                    <option value=""></option>
                     {% for proveedor in proveedores.keys() %}
                     <option value={{proveedor}}>{{proveedores[proveedor]}}</option>
                     {% endfor %}
