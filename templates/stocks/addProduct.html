@@ -73,9 +73,13 @@
                 <input type="text" name=contenido_categoria class="form-control" placeholder=
                         "Introduce el precio del producto" id="inputCategoria">
 
-                <label class="col-form-" for="inputCategoria">Proveedor</label>
-                <input type="text" name=contenido_proveedor class="form-control" placeholder=
-                        "Introduce el precio del producto" id="inputProveedor">
+                <label class="col-form-" for="contenidoProveedor">Proveedor</label>
+                <select name="contenido_proveedor">
+                    <option value="">--Please choose an option--</option>
+                    {% for proveedor in proveedores.keys() %}
+                    <option value={{proveedor}}>{{proveedores[proveedor]}}</option>
+                    {% endfor %}
+                </select>
 
                 <label class="col-form-" for="inputCategoria"></label>
                 <button type="submit" class="btn btn-success btn-block">Guardar</button>
