@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stocks</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/darkly/bootstrap.min.css"
+          integrity="sha384-nNK9n28pDUDDgIiIqZ/MiyO3F4/9vsMtReZK39klb/MtkZI3/LtjSjlmyVPS3KdN" crossorigin="anonymous">
+    <style>
+    div.fixed {
+        position: fixed;
+        right: 0;
+        width: 300px;
+
+    }
+
+    </style>
+</head>
+<body>
+<main>
+    <h1>STOCKS</h1>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03"
+                    aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor03">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/inventario">Inventario
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/anadir-producto">Añadir un producto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/informes">Informes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/proveedores">Proveedores</a>
+                    </li>
+                    {% if session.get('id_usuario') == 1 %}
+                    </li><li class="nav-item">
+                        <a class="nav-link" href="/admin">Admin</a>
+                    </li>
+                    {% endif %}
+                </ul>
+                <div class="fixed">
+                    <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <h3 class="text-center mt-4">EDICIÓN DEL PRODUCTO</h3>
+    <div class="form-group">
+        <div class="col-md-4 offset-md-4 my-auto">
+            <form action='/crear-producto' method='post'>
+                <label class="col-form-" for="inputDescripcion">Descripción</label>
+                <input type="text" name=new_descripcion class="form-control" value=
+                        '{{producto.descripcion}}' id="inputDescripcion" >
+
+                <label class='col-form-' for="inputStock">Stock</label>
+                <input type="number" name=new_stock class="form-control" value=
+                        '{{producto.stock}}' id="inputStock">
+
+                <label class='col-form-' for="inputCapacidad">Capacidad</label>
+                <input type="number" name=new_capacidad class="form-control" value=
+                        '{{producto.capacidad}}' id="inputCapacidad">
+
+                <label class="col-form-" for="inputPrecio">Precio</label>
+                <input type="number" name=new_precio class="form-control" value=
+                        '{{producto.precio}}' id="inputPrecio">
+
+                <label class="col-form-" for="inputCategoria">Categoría</label>
+                <input type="text" name=new_categoria class="form-control" value=
+                        '{{producto.categoria}}' id="inputCategoria">
+
+                <label class="col-form-" for="inputCategoria">Proveedor</label>
+                <input type="text" name=new_proveedor class="form-control" value=
+                        '{{producto.proveedor}}' id="inputProveedor">
+
+                <label class="col-form-" for="inputCategoria"></label>
+                <button type="submit" class="btn btn-success btn-block">Guardar</button>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>
