@@ -1,11 +1,8 @@
-from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
-)
-
+from flask import Blueprint, redirect, render_template, request, url_for, session
 from templates.auth import login_required
 import db
-from db import get_db
 from models import Producto, Proveedor
+
 
 bp = Blueprint('stocks', __name__)
 
@@ -47,7 +44,7 @@ def crear():
 
 @bp.route('/eliminar-producto/<id>')
 def eliminar(id):
-    tarea = db.session.query(Producto).filter_by(id=int(id)).delete()
+    db.session.query(Producto).filter_by(id=int(id)).delete()
     db.session.commit()
     return redirect(url_for('stocks.inventario'))
 
@@ -67,3 +64,12 @@ def informes():
 def proveedores():
     todos_los_proveedores = db.session.query(Proveedor).all()
     return render_template("stocks/proveedores.html", lista_proveedores=todos_los_proveedores)
+
+
+@bp.route('/admin')
+def admin():
+    id_usuario = session.get('id_usuario')
+    if id_usuario == 1:
+        return render_template('stocks/admin.html')
+    else:
+        return render_template('stocks/index.html')

@@ -1,9 +1,7 @@
 import functools
 
 from models import Usuario
-from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
-)
+from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy.exc import IntegrityError
 import db
@@ -57,9 +55,9 @@ def login():
 
         if error is None:
             session.clear()
-            session[usuario['id_usuario']] = usuario1.id_usuario
+            print(usuario['id_usuario'])
+            session['id_usuario'] = usuario.id_usuario
             return render_template('stocks/index.html')
-
         flash(error)
 
     return render_template('auth/login.html')
@@ -73,7 +71,7 @@ def load_logged_in_user():
         g.usuario = None
     else:
         g.usuario = get_db().execute(
-            'SELECT * FROM user WHERE id = ?', (id_usuario,)
+            'SELECT * FROM usuario WHERE id_usuario = ?', (id_usuario,)
         ).fetchone()
 
 
@@ -92,3 +90,6 @@ def login_required(view):
         return view(**kwargs)
 
     return wrapped_view
+
+
+
