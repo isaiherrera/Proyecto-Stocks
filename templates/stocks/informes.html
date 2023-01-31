@@ -40,6 +40,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/proveedores">Proveedores</a>
                     </li>
+                    {% if session.get('id_usuario') == 1 %}
+                    </li><li class="nav-item">
+                        <a class="nav-link" href="/admin">Admin</a>
+                    </li>
+                    {% endif %}
                 </ul>
                 <div class="fixed">
                     <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Logout</a>

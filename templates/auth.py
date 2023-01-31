@@ -68,11 +68,9 @@ def login():
         elif not check_password_hash(usuario['password'], request.form['password']):
             error = 'Invalid username or password.'
 
-        if error is None:
-            session.clear()
-            session[usuario['id_usuario']] = usuario.correo
-            return render_template('stocks/index.html', sesion=session[usuario['id_usuario']])
-
+            print(usuario['id_usuario'])
+            session['id_usuario'] = usuario.id_usuario
+            return render_template('stocks/index.html')
         flash(error)
 
     return render_template('auth/login.html')
@@ -86,7 +84,7 @@ def load_logged_in_user():
         g.usuario = None
     else:
         g.usuario = get_db().execute(
-            'SELECT * FROM user WHERE id = ?', (id_usuario,)
+            'SELECT * FROM usuario WHERE id_usuario = ?', (id_usuario,)
         ).fetchone()
 
 
