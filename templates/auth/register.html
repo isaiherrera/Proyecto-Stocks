@@ -9,7 +9,8 @@
 </head>
 {% for message in get_flashed_messages() %}
 <div class="alert alert-dismissible alert-danger">
-    <button type="button" class="btn" data-bs-dismiss="alert"></button>{{message}}
+    <button type="button" class="btn" data-bs-dismiss="alert"></button>
+    {{message}}
 </div>
 {% endfor %}
 <body>
@@ -45,6 +46,13 @@
                 <label class='col-form-' for="inputPassword">Contraseña</label>
                 <input type="password" name=password class="form-control" placeholder=
                         "Introduce una contraseña" id="inputPassword">
+                <label class="col-form-" for="selectTiposUsuarios">Tipo de usuario</label>
+                <select name="select_tipo_usuario">
+                    <option value="">--Please choose an option--</option>
+                    {% for tipo_usuario in tipos_usuarios.keys() %}
+                    <option value={{tipo_usuario}}>{{tipos_usuarios[tipo_usuario]}}</option>
+                    {% endfor %}
+                </select>
                 <button type="submit" value="Register" class="btn btn-info col-md-4 offset-md-4 mt-4">Signup
                 </button>
             </form>

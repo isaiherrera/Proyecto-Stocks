@@ -1,6 +1,6 @@
 import functools
 
-from models import Usuario
+from models import Usuarios
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
@@ -8,27 +8,39 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy.exc import IntegrityError
 import db
 from db import get_db
+from models import TiposUsuarios
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
+    # db.engine.execute("INSERT INTO tipos_usuarios (nombre_tipo_usuario) VALUES ('admin')")
+    # db.engine.execute("INSERT INTO tipos_usuarios (nombre_tipo_usuario) VALUES ('cliente')")
+    # db.engine.execute("INSERT INTO tipos_usuarios (nombre_tipo_usuario) VALUES ('proveedor')")
+    # db.engine.execute("INSERT INTO proveedores (nombre_empresa, telefono, direccion) VALUES ('amazon', '654321987', 'calle falsa 123')")
+    # db.engine.execute("INSERT INTO proveedores (nombre_empresa, telefono, direccion) VALUES ('bestbuy', '654321987', 'calle falsa 123')")
+    # db.engine.execute("INSERT INTO proveedores (nombre_empresa, telefono, direccion) VALUES ('walmart', '654321987', 'calle falsa 123')")
     if request.method == 'POST':
-        usuario = Usuario(correo=request.form['correo'], password=request.form['password'])
-        print(usuario)
+        usuario = Usuarios(correo=request.form['correo'],
+                           password=request.form['password'],
+                           tipo_usuario=int(request.form['select_tipo_usuario']))
+        print(f"correo\t{usuario.correo}")
+        print(f"password\t{usuario.password}")
         error = None
 
         if not usuario.correo:
             error = 'Username is required.'
         elif not usuario.password:
             error = 'Password is required.'
+        elif not usuario.tipo_usuario:
+            error = 'tipo usuario is required.'
 
         if error is None:
             try:
                 db.engine.execute(
-                    "INSERT INTO usuario (correo, password) VALUES (?, ?)",
-                    (usuario.correo, generate_password_hash(usuario.password)),
+                    "INSERT INTO usuarios (correo, password, tipo_usuario) VALUES (?, ?, ?)",
+                    (usuario.correo, generate_password_hash(usuario.password), usuario.tipo_usuario),
                 )
                 db.session.commit()
             except IntegrityError:
@@ -39,26 +51,27 @@ def register():
 
         flash(error)
 
-    return render_template('auth/register.html')
+    aux = {}
+    for tipos in db.session.query(TiposUsuarios).all():
+        aux[tipos.id_tipo_usuario] = tipos.nombre_tipo_usuario
+    return render_template('auth/register.html', tipos_usuarios=aux)
 
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
-        usuario1 = Usuario(correo=request.form['correo'], password=request.form['password'])
         error = None
         usuario = db.engine.execute(
-            'SELECT * FROM usuario WHERE correo = ?', (usuario1.correo,)
-        ).fetchone()
+            'SELECT * FROM usuarios WHERE correo = ?', (request.form['correo'],)).fetchone()
         if usuario is None:
             error = 'Invalid username or password.'
-        elif not check_password_hash(usuario['password'], usuario1.password):
+        elif not check_password_hash(usuario['password'], request.form['password']):
             error = 'Invalid username or password.'
 
         if error is None:
             session.clear()
-            session[usuario['id_usuario']] = usuario1.id_usuario
-            return render_template('stocks/index.html')
+            session[usuario['id_usuario']] = usuario.correo
+            return render_template('stocks/index.html', sesion=session[usuario['id_usuario']])
 
         flash(error)
 
