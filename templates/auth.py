@@ -13,14 +13,15 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        usuario = Usuario(correo=request.form['correo'], password=request.form['password'])
+        usuario = Usuario(correo=request.form['correo'],
+                          password=request.form['password'])
         print(usuario)
         error = None
 
         if not usuario.correo:
-            error = 'Username is required.'
+            error = 'Se requiere un usuario.'
         elif not usuario.password:
-            error = 'Password is required.'
+            error = 'Se requiere una contraseña.'
 
         if error is None:
             try:
@@ -30,7 +31,7 @@ def register():
                 )
                 db.session.commit()
             except IntegrityError:
-                error = f"Email {usuario.correo} is already registered."
+                error = f"El correo {usuario.correo} ya está registrado."
 
             else:
                 return redirect(url_for("auth.login"))
@@ -49,9 +50,9 @@ def login():
             'SELECT * FROM usuario WHERE correo = ?', (usuario1.correo,)
         ).fetchone()
         if usuario is None:
-            error = 'Invalid username or password.'
+            error = 'Usuario o contraseña incorrectos.'
         elif not check_password_hash(usuario['password'], usuario1.password):
-            error = 'Invalid username or password.'
+            error = 'Usuario o contraseña incorrectos.'
 
         if error is None:
             session.clear()

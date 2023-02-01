@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Stocks</title>
@@ -10,15 +10,16 @@
         position: fixed;
         right: 0;
         width: 300px;
+
     }
+
+
+
     </style>
 </head>
-
 <body>
-<meta charset="UTF-8">
 <main>
     <h1>STOCKS</h1>
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand" href="#"></a>
@@ -32,19 +33,12 @@
                         <a class="nav-link" href="/inventario">Inventario</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/anadir-producto">Añadir un producto</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="/informes">Informes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/proveedores">Proveedores</a>
+                        <a class="nav-link" href="/proveedores">Proveedores</a>
                     </li>
-                    {% if session.get('id_usuario') == 1 %}
-                    </li><li class="nav-item">
-                        <a class="nav-link" href="/admin">Admin</a>
-                    </li>
-                    {% endif %}
+
                 </ul>
                 <div class="fixed">
                     <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Logout</a>
@@ -52,7 +46,32 @@
             </div>
         </div>
     </nav>
+    <h3 class="text-center mt-4">PROVEEDORES</h3>
+    <form action="/anadir-proveedor">
+        <button type="submit" class="btn btn-info">Añadir un producto</button>
+    </form>
+    <table class="table table-hover mt-4">
+        <thead>
+        <tr>
+            <th scope="col">EMPRESA</th>
+            <th scope="col">TELÉFONO</th>
+            <th scope="col">DIRECCIÓN</th>
+            <th scope="col">CIF</th>
+        </tr>
+        </thead>
+        {% for proveedor in proovedores %}
+        <tbody>
+        <tr class="table-secondary">
+            <td>{{proveedor.nombre_empresa}}</td>
+            <td>{{proveedor.telefono}}</td>
+            <td>{{proveedor.direccion}}</td>
+            <td>{{proveedor.cif}}</td>
+
+        </tr>
+        </tbody>
+        {% endfor %}
+    </table>
 </main>
-<h1>Hola Mundo</h1>
+<canvas id="lineChart" width="900" height="400 "></canvas>
 </body>
 </html>

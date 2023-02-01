@@ -7,18 +7,14 @@
           integrity="sha384-nNK9n28pDUDDgIiIqZ/MiyO3F4/9vsMtReZK39klb/MtkZI3/LtjSjlmyVPS3KdN" crossorigin="anonymous">
     <style>
     div.fixed {
-        position: absolute;
+        position: fixed;
         right: 0;
         width: 300px;
+
     }
 
 
-
-
-
-
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
 </head>
 <body>
 <main>
@@ -33,10 +29,7 @@
             <div class="collapse navbar-collapse" id="navbarColor03">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="/inventario">Inventario</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/anadir-producto">Añadir un producto</a>
+                        <a class="nav-link" href="/inventario">Inventario</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/informes">Informes</a>
@@ -44,29 +37,31 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/proveedores">Proveedores</a>
                     </li>
-                    {% if session.get('id_usuario') == 1 %}
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin">Admin</a>
-                    </li>
-                    {% endif %}
-                    <div class="fixed">
-                        <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Logout</a>
-                    </div>
+
                 </ul>
+                <div class="fixed">
+                    <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Logout</a>
+                </div>
             </div>
         </div>
     </nav>
     <h3 class="text-center mt-4">LISTA DE PRODUCTOS</h3>
+    {% if session.get('id_usuario') == 1 %}
+    <form action="/anadir-producto">
+        <button type="submit" class="btn btn-info">Añadir un producto</button>
+    </form>
+    {% endif %}
     <table class="table table-hover mt-4">
         <thead>
         <tr>
             <th scope="col">DESCRIPCIÓN</th>
-            <th scope="col">PRECIO</th>
+            <th scope="col">PVP</th>
+
             <th scope="col">CATEGORÍA</th>
             <th scope="col">PROVEEDOR</th>
             <th scope="col">STOCK</th>
             {% if session.get('id_usuario') == 1 %}
+            <th scope="col">PRECIO</th>
             <th scope="col">CAPACIDAD</th>
             <th scope="col">PORCENTAJE STOCK</th>
             <th scope="col"></th>
@@ -79,13 +74,13 @@
         <tbody>
         <tr class="table-secondary">
             <td>{{producto.descripcion}}</td>
+            <td>{{producto.pvp}}</td>
 
-
-            <td>{{producto.precio}}</td>
             <td>{{producto.categoria}}</td>
             <td>{{producto.proveedor}}</td>
             <td>{{producto.stock}}</td>
             {% if session.get('id_usuario') == 1 %}
+            <td>{{producto.precio}}</td>
             <td>{{producto.capacidad}}</td>
             <td>
                 <div class="progress">

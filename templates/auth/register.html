@@ -9,7 +9,8 @@
 </head>
 {% for message in get_flashed_messages() %}
 <div class="alert alert-dismissible alert-danger">
-    <button type="button" class="btn" data-bs-dismiss="alert"></button>{{message}}
+    <button type="button" class="btn" data-bs-dismiss="alert"></button>
+    {{message}}
 </div>
 {% endfor %}
 <body>
@@ -45,7 +46,7 @@
                 <label class='col-form-' for="inputPassword">Contraseña</label>
                 <input type="password" name=password class="form-control" placeholder=
                         "Introduce una contraseña" id="inputPassword">
-                <button type="submit" value="Register" class="btn btn-info col-md-4 offset-md-4 mt-4">Signup
+                <button type="submit" value="Register" class="btn btn-info col-md-4 offset-md-4 mt-4">Registrar
                 </button>
             </form>
         </div>

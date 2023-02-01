@@ -55,6 +55,7 @@
     </nav>
 
     <h3 class="text-center mt-4">DATOS DEL PRODUCTO</h3>
+
     <div class="form-group">
         <div class="col-md-4 offset-md-4 my-auto">
             <form action='/crear-producto' method='post'>
@@ -70,9 +71,13 @@
                 <input type="number" name=contenido_capacidad class="form-control" placeholder=
                         "Introduce la capacidad del producto" id="inputCapacidad">
 
+                <label class="col-form-" for="inputPVP">PVP</label>
+                <input type="number" name=contenido_PVP class="form-control" placeholder=
+                        "Introduce el PVP del producto" id="inputPVP">
+
                 <label class="col-form-" for="inputPrecio">Precio</label>
                 <input type="number" name=contenido_precio class="form-control" placeholder=
-                        "Introduce el precio del producto" id="inputPrecio">
+                        "Introduce el PVP del producto" id="inputPrecio">
 
                 <label class="col-form-" for="inputCategoria">Categoría</label>
                 <input type="text" name=contenido_categoria class="form-control" placeholder=
