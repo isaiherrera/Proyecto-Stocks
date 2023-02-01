@@ -3,6 +3,7 @@ from templates.auth import login_required
 import db
 from models import Producto, Proveedor
 from db import get_db
+from sqlalchemy import select
 
 bp = Blueprint('stocks', __name__)
 
@@ -51,14 +52,18 @@ def editar(id):
 
 @bp.route('/editProduct/<id>', methods=['POST'])
 def edit(id):
-    producto = Producto(descripcion=request.form['new_descripcion'],
-                        stock=request.form['new_stock'],
-                        capacidad=request.form['new_capacidad'],
-                        precio=request.form['new_precio'],
-                        categoria=request.form['new_categoria'],
-                        proveedor=request.form['new_proveedor'])
-    db.session.update(producto)
+    producto = db.session.execute(db.select(Producto).filter_by(id=id)).scalar_one()
+    print(producto)
+
+    producto.descripcion = request.form['new_descripcion']
+    producto.stock = request.form['new_stock']
+    producto.capacidad = request.form['new_capacidad']
+    producto.precio = request.form['new_precio']
+    producto.categoria = request.form['new_categoria']
+    producto.proveedor = request.form['new_proveedor']
+
     db.session.commit()
+    print(producto)
     return redirect(url_for('stocks.inventario'))
 
 

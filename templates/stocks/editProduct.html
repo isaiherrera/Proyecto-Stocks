@@ -57,7 +57,7 @@
     <h3 class="text-center mt-4">EDICIÓN DEL PRODUCTO</h3>
     <div class="form-group">
         <div class="col-md-4 offset-md-4 my-auto">
-            <form action='/crear-producto' method='post'>
+            <form action='/editProduct/{{producto.id}}' method='post'>
                 <label class="col-form-" for="inputDescripcion">Descripción</label>
                 <input type="text" name=new_descripcion class="form-control" value=
                         '{{producto.descripcion}}' id="inputDescripcion" >
