@@ -3,7 +3,8 @@ from flask import Blueprint, redirect, render_template, request, url_for, sessio
 import db
 from models import Productos, Proveedores
 from templates.auth import login_required
-
+from db import get_db
+from sqlalchemy import select
 bp = Blueprint('stocks', __name__)
 
 
