@@ -11,10 +11,12 @@ class Usuario(db.Base):
     id_usuario = Column(Integer, primary_key=True)
     correo = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=False)
+    type = Column(String)
 
-    def __init__(self, correo, password):
+    def __init__(self, correo, password, type):
         self.correo = correo
         self.password = password
+        self.type = type
 
 
 class Proveedor(db.Base):
@@ -27,11 +29,12 @@ class Proveedor(db.Base):
     cif = Column(Integer, nullable=False, unique=True)
     id_usuario = Column(Integer, ForeignKey('usuario.id_usuario'), nullable=False)
 
-    def __init__(self, nombre_empresa, telefono, direccion, cif):
+    def __init__(self, nombre_empresa, telefono, direccion, cif, id_usuario):
         self.nombre_empresa = nombre_empresa
         self.telefono = telefono
         self.direccion = direccion
         self.cif = cif
+        self.id_usuario = id_usuario
 
     def __str__(self):
         return "Proveedor {}: {} {}".format(self.nombre_empresa, self.id_proveedor, self.telefono, self.direccion)
@@ -47,17 +50,16 @@ class Producto(db.Base):
     pvp = Column(Float, nullable=False)
     precio = Column(Float, nullable=False)
     categoria = Column(String(50), nullable=False)
-    proveedor = Column(String(100), nullable=False)
     id_proveedor = Column(Integer, ForeignKey('proveedor.id_proveedor'))
 
-    def __init__(self, descripcion, stock, capacidad, pvp, precio, categoria, proveedor):
+    def __init__(self, descripcion, stock, capacidad, pvp, precio, categoria, id_proveedor):
         self.descripcion = descripcion
         self.stock = stock
         self.capacidad = capacidad
         self.pvp = pvp
         self.precio = precio
         self.categoria = categoria
-        self.proveedor = proveedor
+        self.id_proveedor = id_proveedor
 
     def __str__(self):
         return "Producto {}: {} {}".format(self.descripcion, self.id, self.categoria)

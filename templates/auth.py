@@ -15,7 +15,7 @@ def register():
     if request.method == 'POST':
         usuario = Usuario(correo=request.form['correo'],
                           password=request.form['password'])
-        print(usuario)
+
         error = None
 
         if not usuario.correo:
@@ -26,8 +26,8 @@ def register():
         if error is None:
             try:
                 db.engine.execute(
-                    "INSERT INTO usuario (correo, password) VALUES (?, ?)",
-                    (usuario.correo, generate_password_hash(usuario.password)),
+                    "INSERT INTO usuario (correo, password, type) VALUES (?, ?, ?)",
+                    (usuario.correo, generate_password_hash(usuario.password), 'cliente'),
                 )
                 db.session.commit()
             except IntegrityError:
@@ -44,14 +44,13 @@ def register():
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
-        usuario1 = Usuario(correo=request.form['correo'], password=request.form['password'])
         error = None
         usuario = db.engine.execute(
-            'SELECT * FROM usuario WHERE correo = ?', (usuario1.correo,)
+            'SELECT * FROM usuario WHERE correo = ?', (request.form['correo'],)
         ).fetchone()
         if usuario is None:
             error = 'Usuario o contraseña incorrectos.'
-        elif not check_password_hash(usuario['password'], usuario1.password):
+        elif not check_password_hash(usuario['password'], request.form['password']):
             error = 'Usuario o contraseña incorrectos.'
 
         if error is None:

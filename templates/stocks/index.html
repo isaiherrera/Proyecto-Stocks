@@ -15,6 +15,9 @@
 
 
     </style>
+    <script>
+        console.log('{{usuario}}');
+    </script>
 </head>
 <body>
 <main>
@@ -31,11 +34,21 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/inventario">Inventario</a>
                     </li>
+
+                    {% if '{{usuario | string}}' != 'proveedor' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/inventarioProveedores">inventarioProveedores</a>
+                    </li>
+                    {% endif %}
+
                     <li class="nav-item">
                         <a class="nav-link" href="/informes">Informes</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/proveedores">Proveedores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/usuarios">Usuarios</a>
                     </li>
 
                 </ul>

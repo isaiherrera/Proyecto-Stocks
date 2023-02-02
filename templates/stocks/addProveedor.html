@@ -14,9 +14,6 @@
     }
 
 
-
-
-
     </style>
 </head>
 <body>
@@ -59,47 +56,34 @@
         </div>
     </nav>
 
-    <h3 class="text-center mt-4">DATOS DEL PRODUCTO</h3>
+    <h3 class="text-center mt-4">DATOS DEL PROVEEDOR</h3>
 
     <div class="form-group">
         <div class="col-md-4 offset-md-4 my-auto">
-            <form action='/crear-producto' method='post'>
-                <label class="col-form-" for="inputDescripcion">Descripción</label>
-                <input type="text" name=contenido_descripcion class="form-control" placeholder=
-                        "Introduce la descripción del producto" id="inputDescripcion">
+            <form action='/crear-proveedor' method='post'>
+                <label class="col-form-" for="inputCorreo">Correo</label>
+                <input type="text" name=correo class="form-control" placeholder=
+                        "Introduce un correo" id="inputcorreo">
+                <label class='col-form-' for="inputPassword">Contraseña</label>
+                <input type="password" name=password class="form-control" placeholder=
+                        "Introduce una contraseña" id="inputPassword">
 
-                <label class='col-form-' for="inputStock">Stock</label>
-                <input type="number" name=contenido_stock class="form-control" placeholder=
-                        "Introduce el stock del producto" id="inputStock">
+                <label class="col-form-" for="inputEmpresa">Empresa</label>
+                <input type="text" name=contenido_empresa class="form-control" placeholder=
+                        "Introduce el nombre de la empresa" id="inputEmpresa">
 
-                <label class='col-form-' for="inputCapacidad">Capacidad</label>
-                <input type="number" name=contenido_capacidad class="form-control" placeholder=
-                        "Introduce la capacidad del producto" id="inputCapacidad">
+                <label class='col-form-' for="inputTelefono">Teléfono</label>
+                <input type="number" name=contenido_telefono class="form-control" placeholder=
+                        "Introduce el teléfono de la empresa" id="inputTelefono">
 
-                <label class="col-form-" for="inputPVP">PVP</label>
-                <input type="number" name=contenido_PVP class="form-control" placeholder=
-                        "Introduce el PVP del producto" id="inputPVP">
+                <label class='col-form-' for="inputDireccion">Dirección</label>
+                <input type="text" name=contenido_direccion class="form-control" placeholder=
+                        "Introduce la dirección de la empresa" id="inputDireccion">
 
-                <label class="col-form-" for="inputPrecio">Precio</label>
-                <input type="number" name=contenido_precio class="form-control" placeholder=
-                        "Introduce el PVP del producto" id="inputPrecio">
+                <label class="col-form-" for="inputCIF">CIF</label>
+                <input type="text" name=contenido_cif class="form-control" placeholder=
+                        "Introduce el CIF de la empresa" id="inputCIF">
 
-                <label class="col-form-" for="inputCategoria">Categoría</label>
-                <input type="text" name=contenido_categoria class="form-control" placeholder=
-                        "Introduce la catergoría del producto" id="inputCategoria">
-                <div class="form-group">
-                    <label for="inputProveedor" class="form-label mt-4">Proveedor</label>
-                    <div>
-                        <select name='proveedor_elegido' class="form-select" id="inputProveedor">
-                            <option value="default">---</option>
-                            {%for proveedor in lista_proveedores%}
-                            <option value="{{proveedor.nombre_empresa}}">{{proveedor.nombre_empresa}}</option>
-                            {%endfor%}
-
-                        </select>
-
-                    </div>
-                </div>
                 <button type="submit" class="btn btn-success btn-block">Guardar</button>
             </form>
         </div>
