@@ -106,13 +106,21 @@ def inventario_proveedores():
 @bp.route('/informes')
 def informes():
     todos_los_productos = db.session.query(Producto).all()
-    labels = []
-    values = []
+    nombres_producto = []
+    ventas = []
+    beneficios = []
+    print(todos_los_productos)
     for producto in todos_los_productos:
-        labels.append(producto.descripcion)
-        values.append(producto.stock)
-    return render_template('stocks/informes/informes.html', labels=labels, values=values,
-                           tipo_de_usuario=tipo_de_usuario())
+        nombres_producto.append(producto.descripcion)
+        ventas.append(producto.capacidad - producto.stock)
+        beneficios.append(producto.pvp - producto.precio)
+
+        print(nombres_producto)
+        print(ventas)
+        print(beneficios)
+
+        return render_template('stocks/informes/informes.html', labels1=nombres_producto, values1=ventas,
+                               values2=beneficios, tipo_de_usuario=tipo_de_usuario())
 
 
 @bp.route('/proveedores')

@@ -61,16 +61,16 @@
     {% if tipo_de_usuario == 'cliente' %}
     <script>
        var ctx = document.getElementById("lineChart").getContext("2d");
-       console.log({{ labels | safe}});
-       console.log({{ values | safe}});
+       console.log({{ labels1 | safe}});
+       console.log({{ values1 | safe}});
        var lineChart = new Chart(ctx, {
          type: "bar",
          data: {
-            labels: {{ labels | safe}},
+            labels: {{ labels1 | safe}},
             datasets: [
                 {
                   label: 'Ventas (Unidades)',
-                  data: {{ values | safe}},
+                  data: {{ values1 | safe}},
                   fill: true,
                   borderColor : "rgba(9, 129, 176, 0.2)",
                   backgroundColor: 'white',
@@ -82,13 +82,10 @@
          responsive: false
          }
        });
-
-
     </script>
     {% endif %}
-    {% if session.get('id_usuario') == 1 %}
-    <h1> Hello</h1>
-    {% endif %}
+
+
 </main>
 </body>
 </html>
