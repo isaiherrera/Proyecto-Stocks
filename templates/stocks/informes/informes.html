@@ -58,6 +58,8 @@
     </nav>
     <h3 class="text-center mt-4">GRÁFICA</h3>
     <canvas id="lineChart" width="900" height="400 "></canvas>
+
+    <canvas id="lineChart2" width="900" height="400 "></canvas>
     {% if tipo_de_usuario == 'cliente' %}
     <script>
        var ctx = document.getElementById("lineChart").getContext("2d");
@@ -84,6 +86,31 @@
        });
     </script>
     {% endif %}
+    <script>
+       var ctx = document.getElementById("lineChart2").getContext("2d");
+       console.log({{ labels1 | safe}});
+       console.log({{ values2 | safe}});
+       var lineChart = new Chart(ctx, {
+         type: "bar",
+         data: {
+            labels: {{ labels1 | safe}},
+            datasets: [
+                {
+                  label: 'Beneficios (euros)',
+                  data: {{ values2 | safe}},
+                  fill: true,
+                  borderColor : "rgba(9, 129, 176, 0.2)",
+                  backgroundColor: 'white',
+                  lineTension: 0.1
+                }
+            ]
+         },
+         options: {
+         responsive: false
+         }
+       });
+    </script>
+
 
 
 </main>

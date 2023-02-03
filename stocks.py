@@ -21,6 +21,7 @@ def tipo_de_usuario():
     return usuario.type
 
 
+
 @bp.route('/')
 @login_required
 def index():
@@ -113,13 +114,13 @@ def informes():
     for producto in todos_los_productos:
         nombres_producto.append(producto.descripcion)
         ventas.append(producto.capacidad - producto.stock)
-        beneficios.append(producto.pvp - producto.precio)
+        beneficios.append((producto.pvp - producto.precio)*(producto.capacidad - producto.stock))
 
-        print(nombres_producto)
-        print(ventas)
-        print(beneficios)
+    print(nombres_producto)
+    print(ventas)
+    print(beneficios)
 
-        return render_template('stocks/informes/informes.html', labels1=nombres_producto, values1=ventas,
+    return render_template('stocks/informes/informes.html', labels1=nombres_producto, values1=ventas,
                                values2=beneficios, tipo_de_usuario=tipo_de_usuario())
 
 
