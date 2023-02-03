@@ -7,14 +7,10 @@
           integrity="sha384-nNK9n28pDUDDgIiIqZ/MiyO3F4/9vsMtReZK39klb/MtkZI3/LtjSjlmyVPS3KdN" crossorigin="anonymous">
     <style>
     div.fixed {
-        position: fixed;
+        position: relative;
         right: 0;
         width: 300px;
-
     }
-
-
-
     </style>
 </head>
 <body>
@@ -29,18 +25,29 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarColor03">
                 <ul class="navbar-nav me-auto">
+
+                    {% if session.get('id_usuario') == 1 or tipo_de_usuario == 'cliente' %}
                     <li class="nav-item">
                         <a class="nav-link" href="/inventario">Inventario</a>
                     </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="/informes">Informes</a>
                     </li>
+                    {% if session.get('id_usuario') == 1 %}
                     <li class="nav-item">
                         <a class="nav-link" href="/proveedores">Proveedores</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/usuarios">Usuarios</a>
                     </li>
+                    {% endif %}
+
+                    {% if tipo_de_usuario == 'proveedor' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/inventarioProveedores">inventarioProveedores</a>
+                    </li>
+                    {% endif %}
 
                 </ul>
                 <div class="fixed">
@@ -60,7 +67,6 @@
         <tr>
             <th scope="col">DESCRIPCIÓN</th>
             <th scope="col">PVP</th>
-
             <th scope="col">CATEGORÍA</th>
             <th scope="col">PROVEEDOR</th>
             <th scope="col">STOCK</th>

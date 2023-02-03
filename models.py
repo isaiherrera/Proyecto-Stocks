@@ -23,7 +23,7 @@ class Proveedor(db.Base):
     __tablename__ = 'proveedor'
     __table_args__ = {'sqlite_autoincrement': True}
     id_proveedor = Column(Integer, primary_key=True)
-    nombre_empresa = Column(String(50), nullable=False)
+    nombre_empresa = Column(String(50), nullable=False, unique=True)
     telefono = Column(Integer, nullable=False)
     direccion = Column(String, nullable=False)
     cif = Column(Integer, nullable=False, unique=True)
@@ -44,7 +44,7 @@ class Producto(db.Base):
     __tablename__ = 'producto'
     __table_args__ = {'sqlite_autoincrement': True}
     id = Column(Integer, primary_key=True)
-    descripcion = Column(String(200), nullable=False)
+    descripcion = Column(String(200), nullable=False, unique=True)
     stock = Column(Integer, nullable=False)
     capacidad = Column(Integer, nullable=False)
     pvp = Column(Float, nullable=False)

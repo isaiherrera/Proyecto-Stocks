@@ -14,7 +14,8 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 def register():
     if request.method == 'POST':
         usuario = Usuario(correo=request.form['correo'],
-                          password=request.form['password'])
+                          password=request.form['password'],
+                          type='proveedor')
 
         error = None
 
@@ -55,9 +56,8 @@ def login():
 
         if error is None:
             session.clear()
-            print(usuario['id_usuario'])
             session['id_usuario'] = usuario.id_usuario
-            return render_template('stocks/index.html')
+            return redirect(url_for('index'))
         flash(error)
 
     return render_template('auth/login.html')
@@ -90,6 +90,3 @@ def login_required(view):
         return view(**kwargs)
 
     return wrapped_view
-
-
-

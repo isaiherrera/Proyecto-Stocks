@@ -7,7 +7,7 @@
           integrity="sha384-nNK9n28pDUDDgIiIqZ/MiyO3F4/9vsMtReZK39klb/MtkZI3/LtjSjlmyVPS3KdN" crossorigin="anonymous">
     <style>
     div.fixed {
-        position: fixed;
+        position: relative;
         right: 0;
         width: 300px;
     }
@@ -26,16 +26,29 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarColor03">
                 <ul class="navbar-nav me-auto">
+
+                    {% if session.get('id_usuario') == 1 or tipo_de_usuario == 'cliente' %}
                     <li class="nav-item">
                         <a class="nav-link" href="/inventario">Inventario</a>
                     </li>
+                    {% endif %}
+
+                    {% if tipo_de_usuario == 'proveedor' %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/informes">Informes</a>
+                        <a class="nav-link" href="/inventarioProveedor">Inventario del Proveedor</a>
                     </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/informes">Informes</a>
+                    </li>
+                    {% if session.get('id_usuario') == 1 %}
                     <li class="nav-item">
                         <a class="nav-link" href="/proveedores">Proveedores</a>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link" href="/usuarios">Usuarios</a>
+                    </li>
+                    {% endif %}
                 </ul>
                 <div class="fixed">
                     <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Logout</a>
@@ -45,6 +58,7 @@
     </nav>
     <h3 class="text-center mt-4">GRÁFICA</h3>
     <canvas id="lineChart" width="900" height="400 "></canvas>
+    {% if tipo_de_usuario == 'cliente' %}
     <script>
        var ctx = document.getElementById("lineChart").getContext("2d");
        console.log({{ labels | safe}});
@@ -71,6 +85,10 @@
 
 
     </script>
+    {% endif %}
+    {% if session.get('id_usuario') == 1 %}
+    <h1> Hello</h1>
+    {% endif %}
 </main>
 </body>
 </html>
