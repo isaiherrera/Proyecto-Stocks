@@ -12,12 +12,13 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
+    success = None
     if request.method == 'POST':
-        correo = request.form['correo']
-        password = generate_password_hash(request.form['password'])
+        # correo = request.form['correo']
+        # password = generate_password_hash(request.form['password'])
 
-        usuario = Usuario(correo=correo,
-                          password=password,
+        usuario = Usuario(correo=request.form['correo'],
+                          password=request.form['password'],
                           type='cliente')
 
         error = None
@@ -29,13 +30,17 @@ def register():
 
         if error is None:
             try:
+                usuario.password = generate_password_hash(usuario.password)
                 db.session.add(usuario)
                 db.session.commit()
+
             except IntegrityError:
                 error = f"El correo {usuario.correo} ya está registrado."
 
             else:
-                return redirect(url_for("auth.login"))
+                success = 'Se ha creado el usuario con éxito'
+                print(success)
+                return render_template('auth/login.html', success=success)
 
         flash(error)
 

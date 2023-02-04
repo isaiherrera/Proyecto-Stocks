@@ -64,11 +64,6 @@
         </div>
     </nav>
     <h3 class="text-center mt-4">USUARIOS REGISTRADOS</h3>
-    {% if session.get('id_usuario') == 1 %}
-    <form action="/anadir-producto">
-        <button type="submit" class="btn btn-info">Añadir un usuario</button>
-    </form>
-    {% endif %}
     <table class="table table-hover mt-4">
         <thead>
         <tr>
