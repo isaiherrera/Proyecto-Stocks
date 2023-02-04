@@ -28,7 +28,7 @@
 
                     {% if session.get('id_usuario') == 1 or tipo_de_usuario == 'cliente' %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/inventario">Inventario</a>
+                        <a class="nav-link active" href="/inventario">Inventario</a>
                     </li>
 
 
@@ -52,9 +52,14 @@
                     {% endif %}
 
                 </ul>
-                <div class="fixed">
-                    <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Logout</a>
-                </div>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"></li>
+                        <li class="nav-link active">Usuario: {{usuario.correo}}</li>
+                    <ul class="nav-item "></ul>
+                    <li>
+                        <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Logout</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -87,9 +92,18 @@
                 <input type="text" name=new_categoria class="form-control" value=
                         '{{producto.categoria}}' id="inputCategoria">
 
-                <label class="col-form-" for="inputCategoria">Proveedor</label>
-                <input type="text" name=new_proveedor class="form-control" value=
-                        '{{producto.proveedor}}' id="inputProveedor">
+                <label for="inputProveedor" class="form-label mt-4">Proveedor</label>
+                    <span class="badge bg-warning">Si no aparece el proveedor deseado, debe crearlo desde la pestaña "Proveedores"</span>
+                    <div>
+                        <select name='new_proveedor' class="form-select" id="inputProveedor">
+                            <option value="default">---</option>
+                            {%for proveedor in lista_proveedores%}
+                            <option value="{{proveedor.nombre_empresa}}">{{proveedor.nombre_empresa}}</option>
+                            {%endfor%}
+
+                        </select>
+
+                    </div>
 
                 <label class="col-form-" for="inputCategoria"></label>
                 <button type="submit" class="btn btn-success btn-block">Guardar</button>

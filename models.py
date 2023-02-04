@@ -1,8 +1,5 @@
-from sqlalchemy.orm import relationship
-from db import Base
 import db
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, Table, DateTime
-from datetime import datetime
+from sqlalchemy import Column, Integer, String, Float, ForeignKey
 
 
 class Usuario(db.Base):
@@ -63,31 +60,3 @@ class Producto(db.Base):
 
     def __str__(self):
         return "Producto {}: {} {}".format(self.descripcion, self.id, self.categoria)
-
-
-class Clientes(db.Base):
-    __tablename__ = 'cliente'
-    __table_args__ = {'sqlite_autoincrement': True}
-    id_cliente = Column(Integer, primary_key=True)
-    nombre = Column(String(50), nullable=False)
-    direccion = Column(String(100), nullable=False)
-    id_usuario = Column(Integer, ForeignKey('usuario.id_usuario'), nullable=False, unique=True)
-
-    pedidos = relationship('Pedidos', backref='cliente')
-
-
-pedidos_productos = Table('pedidos_productos',
-                          Base.metadata,
-                          Column('id_pedido', Integer, ForeignKey('pedido.id_pedido'), primary_key=True),
-                          Column('id_producto', Integer, ForeignKey('producto.id'), primary_key=True)
-                          )
-
-
-class Pedidos(db.Base):
-    __tablename__ = 'pedido'
-    __table_args__ = {'sqlite_autoincrement': True}
-    id_pedido = Column(Integer, primary_key=True)
-    fecha_pedido = Column(DateTime, nullable=False, default=datetime.utcnow())
-    id_cliente = Column(Integer, ForeignKey('cliente.id_cliente'), nullable=False)
-
-    productos = relationship('Producto', secondary=pedidos_productos)

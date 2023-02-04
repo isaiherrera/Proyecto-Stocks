@@ -52,9 +52,14 @@
                     {% endif %}
 
                 </ul>
-                <div class="fixed">
-                    <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Logout</a>
-                </div>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"></li>
+                        <li class="nav-link active">Usuario: {{usuario.correo}}</li>
+                    <ul class="nav-item "></ul>
+                    <li>
+                        <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Logout</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -74,7 +79,7 @@
 
         </tr>
         </thead>
-        {% for usuario in lista_usuarios %}
+        {% for usuario in lista_clientes %}
         <tbody>
         <tr class="table-secondary">
             <td>{{usuario.id_usuario}}</td>

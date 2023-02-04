@@ -19,12 +19,16 @@ def tipo_de_usuario():
     usuario = db.session.execute(
         db.select(Usuario).filter_by(id_usuario=session.get('id_usuario'))).scalar_one()
     return usuario.type
+def usuario():
+    usuario = db.session.execute(db.select(Usuario).filter_by(id_usuario=session.get('id_usuario'))).scalar_one()
+    return usuario
 
 
 @bp.route('/')
 @login_required
 def index():
-    return render_template('stocks/index.html', tipo_de_usuario=tipo_de_usuario())
+
+    return render_template('stocks/index.html', tipo_de_usuario=tipo_de_usuario(), usuario=usuario())
 
 
 @bp.route('/inventario')
@@ -32,24 +36,27 @@ def inventario():
     todos_los_productos = db.session.query(Producto).all()
     todos_los_proveedores = db.session.query(Proveedor).all()
     return render_template("stocks/inventario/inventario.html", lista_productos=todos_los_productos,
-                           lista_proveedores=get_proveedores(), tipo_de_usuario=tipo_de_usuario())
+                           lista_proveedores=get_proveedores(), tipo_de_usuario=tipo_de_usuario(),  usuario=usuario())
 
 
 @bp.route('/anadir-producto')
 def add_product():
     todos_los_proveedores = db.session.query(Proveedor).all()
-    return render_template('stocks/inventario/addProduct.html', lista_proveedores=todos_los_proveedores)
+    return render_template('stocks/inventario/addProduct.html', lista_proveedores=todos_los_proveedores,  usuario=usuario())
 
 
 @bp.route('/editar-producto/<id>')
 def editar(id):
+    todos_los_proveedores = db.session.query(Proveedor).all()
     producto = get_db().execute('SELECT * FROM producto WHERE id = ?', (id,)).fetchone()
 
-    return render_template('stocks/inventario/editProduct.html', producto=producto)
+    return render_template('stocks/inventario/editProduct.html', producto=producto,
+                           lista_proveedores=todos_los_proveedores,  usuario=usuario())
 
 
 @bp.route('/editProduct/<id>', methods=['POST'])
 def edit(id):
+
     producto = db.session.execute(db.select(Producto).filter_by(id=id)).scalar_one()
 
     producto.descripcion = request.form['new_descripcion']
@@ -98,7 +105,7 @@ def inventario_proveedores():
     for producto in productos:
         productos_proveedor.append(producto)
     return render_template('/stocks/proveedores/inventarioProveedor.html', productos_proveedor=productos_proveedor,
-                           proveedor=get_proveedor)
+                           proveedor=get_proveedor,  usuario=usuario())
 
 
 @bp.route('/informes')
@@ -118,7 +125,7 @@ def informes():
             productos_del_proveedor.append(producto.descripcion)
             compras.append(producto.capacidad - producto.stock)
         return render_template('stocks/informes/informes.html', nombres_producto_proveedor=productos_del_proveedor,
-                               compras=compras, tipo_de_usuario=tipo_de_usuario())
+                               compras=compras, tipo_de_usuario=tipo_de_usuario(),  usuario=usuario())
     else:
         for producto in todos_los_productos:
             nombres_producto.append(producto.descripcion)
@@ -126,7 +133,7 @@ def informes():
             beneficios.append((producto.pvp - producto.precio) * (producto.capacidad - producto.stock))
 
         return render_template('stocks/informes/informes.html', nombres=nombres_producto, ventas=ventas,
-                               beneficios=beneficios, tipo_de_usuario=tipo_de_usuario())
+                               beneficios=beneficios, tipo_de_usuario=tipo_de_usuario(),  usuario=usuario())
 
 
 @bp.route('/proveedores')
@@ -134,12 +141,12 @@ def proveedores():
     todos_los_proveedores = db.session.query(Proveedor).all()
     todos_los_usuarios = db.session.query(Usuario).all()
     return render_template("stocks/proveedores/proveedores.html", lista_proveedores=todos_los_proveedores,
-                           lista_usuarios=todos_los_usuarios)
+                           lista_usuarios=todos_los_usuarios,  usuario=usuario())
 
 
 @bp.route('/anadir-proveedor')
 def add_proveedor():
-    return render_template('stocks/proveedores/addProveedor.html')
+    return render_template('stocks/proveedores/addProveedor.html', usuario=usuario())
 
 
 @bp.route('/crear-proveedor', methods=['POST'])
@@ -171,8 +178,9 @@ def eliminar_proveedor(id):
 
 @bp.route('/usuarios')
 def usuarios():
-    todos_los_usuarios = db.session.query(Usuario).all()
-    return render_template('stocks/usuarios/usuarios.html', lista_usuarios=todos_los_usuarios)
+    clientes = db.session.execute(
+        db.select(Usuario).filter_by(type='cliente')).scalars()
+    return render_template('stocks/usuarios/usuarios.html', lista_clientes=clientes,  usuario=usuario())
 
 
 @bp.route('/eliminar-usuario/<id>')

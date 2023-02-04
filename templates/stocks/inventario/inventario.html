@@ -28,7 +28,7 @@
 
                     {% if session.get('id_usuario') == 1 or tipo_de_usuario == 'cliente' %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/inventario">Inventario</a>
+                        <a class="nav-link active" href="/inventario">Inventario</a>
                     </li>
                     {% endif %}
                     <li class="nav-item">
@@ -50,9 +50,14 @@
                     {% endif %}
 
                 </ul>
-                <div class="fixed">
-                    <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Logout</a>
-                </div>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"></li>
+                        <li class="nav-link active">Usuario: {{usuario.correo}}</li>
+                    <ul class="nav-item "></ul>
+                    <li>
+                        <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Logout</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -97,7 +102,6 @@
                          style="width:{{ '{:.0f}'.format((producto.stock/producto.capacidad)*100) }}%"
                          aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
                         {{ '{:.0f}'.format((producto.stock/producto.capacidad)*100) }}%
-
                     </div>
                 </div>
 
