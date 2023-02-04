@@ -13,9 +13,12 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        usuario = Usuario(correo=request.form['correo'],
-                          password=request.form['password'],
-                          type='proveedor')
+        correo = request.form['correo']
+        password = generate_password_hash(request.form['password'])
+
+        usuario = Usuario(correo=correo,
+                          password=password,
+                          type='cliente')
 
         error = None
 
@@ -26,10 +29,7 @@ def register():
 
         if error is None:
             try:
-                db.engine.execute(
-                    "INSERT INTO usuario (correo, password, type) VALUES (?, ?, ?)",
-                    (usuario.correo, generate_password_hash(usuario.password), 'cliente'),
-                )
+                db.session.add(usuario)
                 db.session.commit()
             except IntegrityError:
                 error = f"El correo {usuario.correo} ya está registrado."
@@ -45,13 +45,12 @@ def register():
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
+        correo = request.form['correo']
         error = None
-        usuario = db.engine.execute(
-            'SELECT * FROM usuario WHERE correo = ?', (request.form['correo'],)
-        ).fetchone()
+        usuario = db.session.query(Usuario).filter(Usuario.correo == correo).first()
         if usuario is None:
             error = 'Usuario o contraseña incorrectos.'
-        elif not check_password_hash(usuario['password'], request.form['password']):
+        elif not check_password_hash(usuario.password, request.form['password']):
             error = 'Usuario o contraseña incorrectos.'
 
         if error is None:
