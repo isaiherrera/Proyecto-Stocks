@@ -11,6 +11,7 @@
         right: 0;
         width: 300px;
     }
+
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
 </head>
@@ -57,22 +58,85 @@
         </div>
     </nav>
     <h3 class="text-center mt-4">GRÁFICA</h3>
+    {% if tipo_de_usuario == 'cliente' %}
     <canvas id="lineChart" width="900" height="400 "></canvas>
-
+    {% endif %}
+    {% if session.get('id_usuario') == 1 %}
     <canvas id="lineChart2" width="900" height="400 "></canvas>
+    {% endif %}
+    {% if tipo_de_usuario == 'proveedor' %}
+    <canvas id="lineChart3" width="900" height="400 "></canvas>
+    {% endif %}
+
     {% if tipo_de_usuario == 'cliente' %}
     <script>
        var ctx = document.getElementById("lineChart").getContext("2d");
-       console.log({{ labels1 | safe}});
-       console.log({{ values1 | safe}});
+       console.log({{ nombres | safe}});
+       console.log({{ ventas | safe}});
        var lineChart = new Chart(ctx, {
          type: "bar",
          data: {
-            labels: {{ labels1 | safe}},
+            labels: {{ nombres | safe}},
             datasets: [
                 {
                   label: 'Ventas (Unidades)',
-                  data: {{ values1 | safe}},
+                  data: {{ ventas | safe}},
+                  fill: true,
+                  borderColor : "rgba(9, 129, 176, 0.2)",
+                  backgroundColor: 'white',
+                  lineTension: 0.1
+                }
+            ]
+         },
+         options: {
+         responsive: false
+         }
+       });
+
+    </script>
+    {% endif %}
+
+    {% if session.get('id_usuario') == 1 %}
+    <script>
+       var ctx = document.getElementById("lineChart2").getContext("2d");
+       console.log({{ nombres | safe}});
+       console.log({{ beneficios | safe}});
+       var lineChart = new Chart(ctx, {
+         type: "bar",
+         data: {
+            labels: {{ nombres | safe}},
+            datasets: [
+                {
+                  label: 'Beneficios (euros)',
+                  data: {{ beneficios | safe}},
+                  fill: true,
+                  borderColor : "rgba(9, 129, 176, 0.2)",
+                  backgroundColor: 'white',
+                  lineTension: 0.1
+                }
+            ]
+         },
+         options: {
+         responsive: false
+         }
+       });
+
+    </script>
+    {% endif %}
+
+    {% if tipo_de_usuario == 'proveedor' %}
+    <script>
+       var ctx = document.getElementById("lineChart3").getContext("2d");
+       console.log({{ nombres_producto_proveedor | safe}});
+       console.log({{ compras | safe}});
+       var lineChart = new Chart(ctx, {
+         type: "bar",
+         data: {
+            labels: {{ nombres_producto_proveedor | safe}},
+            datasets: [
+                {
+                  label: 'Compras (Unidades)',
+                  data: {{ compras | safe}},
                   fill: true,
                   borderColor : "rgba(9, 129, 176, 0.2)",
                   backgroundColor: 'white',
@@ -86,31 +150,6 @@
        });
     </script>
     {% endif %}
-    <script>
-       var ctx = document.getElementById("lineChart2").getContext("2d");
-       console.log({{ labels1 | safe}});
-       console.log({{ values2 | safe}});
-       var lineChart = new Chart(ctx, {
-         type: "bar",
-         data: {
-            labels: {{ labels1 | safe}},
-            datasets: [
-                {
-                  label: 'Beneficios (euros)',
-                  data: {{ values2 | safe}},
-                  fill: true,
-                  borderColor : "rgba(9, 129, 176, 0.2)",
-                  backgroundColor: 'white',
-                  lineTension: 0.1
-                }
-            ]
-         },
-         options: {
-         responsive: false
-         }
-       });
-    </script>
-
 
 
 </main>
