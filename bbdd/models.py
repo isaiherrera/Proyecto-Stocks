@@ -1,4 +1,4 @@
-import db
+from bbdd import db
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
 
 

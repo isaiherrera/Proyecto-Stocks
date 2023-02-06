@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash
 from bbdd import db
 import utils
 from bbdd.models import Proveedor, Usuario, Producto
-from utils import todos_los_proveedores, usuario, todos_los_usuarios
+from utils import todos_los_proveedores, usuario, todos_los_usuarios, tipo_de_usuario
 
 bp = Blueprint('proveedores', __name__, url_prefix='/proveedores')
 
@@ -25,7 +25,7 @@ def inventario_proveedores():
     for producto in productos:
         productos_proveedor.append(producto)
     return render_template('/proveedores/inventarioProveedor.html', productos_proveedor=productos_proveedor,
-                           proveedor=get_proveedor, usuario=usuario())
+                           proveedor=get_proveedor, tipo_de_usuario=tipo_de_usuario())
 
 
 @bp.route('/anadir-proveedor', methods=['GET', 'POST'])
@@ -55,4 +55,4 @@ def eliminar_proveedor(id):
     db.session.query(Usuario).filter_by(id_usuario=proveedor.id_usuario).delete()
     db.session.query(Proveedor).filter_by(id_proveedor=int(id)).delete()
     db.session.commit()
-    return redirect(url_for('proveedores.proveedores'), code=202)
+    return redirect(url_for('proveedores.proveedores'))

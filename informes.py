@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint
+from flask import render_template, Blueprint, session
 
 from bbdd import db
 from bbdd.models import Proveedor, Producto
@@ -15,10 +15,8 @@ def informes():
     productos_del_proveedor = []
     compras = []
     if tipo_de_usuario() == 'proveedor':
-        get_proveedor = db.session.execute(
-            db.select(Proveedor).filter_by(id_usuario=db.session.get('id_usuario'))).scalar_one()
-        productos_proveedor = db.session.execute(
-            db.select(Producto).filter_by(id_proveedor=get_proveedor.id_proveedor)).scalars()
+        get_proveedor = db.session.query(Proveedor.id_proveedor).filter_by(id_usuario=session['id_usuario']).first()[0]
+        productos_proveedor = db.session.query(Producto).filter_by(id_proveedor=get_proveedor).all()
         for producto in productos_proveedor:
             productos_del_proveedor.append(producto.descripcion)
             compras.append(producto.capacidad - producto.stock)

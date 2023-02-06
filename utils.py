@@ -24,7 +24,7 @@ def get_proveedores():
 
 
 def usuario():
-    usuario = db.session.execute(db.select(Usuario).filter_by(id_usuario=session.get('id_usuario'))).scalar_one()
+    usuario = db.session.query(Usuario).filter_by(id_usuario=session.get('id_usuario')).first()
     return usuario
 
 
