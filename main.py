@@ -1,8 +1,12 @@
 from flask import Flask
 import db
 import os
-from templates import auth
+
+import informes
+import auth
+import usuarios
 import stocks
+import proveedores
 
 app = Flask(__name__)
 app.config.from_mapping(
@@ -11,6 +15,9 @@ app.config.from_mapping(
 
 app.register_blueprint(auth.bp)
 app.register_blueprint(stocks.bp)
+app.register_blueprint(proveedores.bp)
+app.register_blueprint(usuarios.bp)
+app.register_blueprint(informes.bp)
 app.add_url_rule('/', endpoint='index')
 
 if __name__ == '__main__':

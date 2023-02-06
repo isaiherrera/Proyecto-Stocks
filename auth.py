@@ -14,9 +14,6 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 def register():
     success = None
     if request.method == 'POST':
-        # correo = request.form['correo']
-        # password = generate_password_hash(request.form['password'])
-
         usuario = Usuario(correo=request.form['correo'],
                           password=request.form['password'],
                           type='cliente')
@@ -38,8 +35,7 @@ def register():
                 error = f"El correo {usuario.correo} ya está registrado."
 
             else:
-                success = 'Se ha creado el usuario con éxito'
-                print(success)
+                success = f"Se ha creado el usuario: {usuario.correo} con éxito"
                 return render_template('auth/login.html', success=success)
 
         flash(error)
