@@ -1,7 +1,7 @@
 from flask import session
 
-import db
-from models import Proveedor, Usuario, Producto
+from bbdd import db
+from bbdd.models import Proveedor, Usuario, Producto
 
 
 def todos_los_proveedores():

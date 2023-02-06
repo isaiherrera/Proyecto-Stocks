@@ -1,7 +1,7 @@
-from flask import render_template, redirect, url_for, Blueprint
+from flask import render_template, Blueprint
 
-import db
-from models import Proveedor, Producto
+from bbdd import db
+from bbdd.models import Proveedor, Producto
 from utils import tipo_de_usuario, todos_los_productos, usuario
 
 bp = Blueprint('informes', __name__)

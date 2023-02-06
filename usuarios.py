@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, Blueprint
 
-import db
-from models import Usuario
+from bbdd import db
+from bbdd.models import Usuario
 from utils import usuario
 
 bp = Blueprint('usuarios', __name__)

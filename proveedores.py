@@ -1,9 +1,9 @@
 from flask import Blueprint, redirect, render_template, request, url_for, session
 from werkzeug.security import generate_password_hash
 
-import db
+from bbdd import db
 import utils
-from models import Proveedor, Usuario, Producto
+from bbdd.models import Proveedor, Usuario, Producto
 from utils import todos_los_proveedores, usuario, todos_los_usuarios
 
 bp = Blueprint('proveedores', __name__, url_prefix='/proveedores')

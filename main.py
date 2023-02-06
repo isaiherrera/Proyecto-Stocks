@@ -1,5 +1,5 @@
 from flask import Flask
-import db
+from bbdd import db
 import os
 
 import informes

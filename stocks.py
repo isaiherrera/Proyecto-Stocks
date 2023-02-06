@@ -1,9 +1,9 @@
-from flask import Blueprint, redirect, render_template, request, url_for, session, abort
+from flask import Blueprint, redirect, render_template, request, url_for, abort
 
-import db
+from bbdd import db
 from auth import login_required
-from models import Producto, Proveedor, Usuario
-from utils import tipo_de_usuario, usuario, get_proveedores, todos_los_proveedores, todos_los_productos
+from bbdd.models import Producto
+from utils import tipo_de_usuario, usuario, get_proveedores, todos_los_productos
 
 bp = Blueprint('stocks', __name__)
 

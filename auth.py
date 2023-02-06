@@ -1,11 +1,11 @@
 import functools
 
-from models import Usuario
+from bbdd.models import Usuario
 from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy.exc import IntegrityError
-import db
-from db import get_db
+from bbdd import db
+from bbdd.db import get_db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
